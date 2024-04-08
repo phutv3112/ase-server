@@ -179,9 +179,9 @@ namespace AESEncryption
             label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             label5.Location = new System.Drawing.Point(23, 175);
             label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(120, 20);
+            label5.Size = new System.Drawing.Size(123, 20);
             label5.TabIndex = 10;
-            label5.Text = "Client IP Address";
+            label5.Text = "Server IP Address";
             // 
             // openFileDialog1
             // 
@@ -214,7 +214,6 @@ namespace AESEncryption
             groupBox3.Size = new System.Drawing.Size(775, 73);
             groupBox3.TabIndex = 13;
             groupBox3.TabStop = false;
-            groupBox3.Text = "Double click inside any field above to see its value in bytes";
             // 
             // Form1
             // 

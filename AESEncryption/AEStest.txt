@@ -1,0 +1,18 @@
+==================== how to run with https in asp =============
+-----> dotnet watch run --launch-profile https
+-----> pass send mail: orjs dzxd fopi gchy
+
+============Dependency Injection ===============
+https://tedu.com.vn/lap-trinh-aspnet-core/co-che-dependency-injection-trong-aspnet-core-256.html
+
+-----> chỉ cần đăng ký dịch vụ(hiểu đơn giản là ví dụ ta có 1 service trong 1 namespace thì chỉ cần nạp 1 lần namespace nơi đăng dịch vụ là được chứ không cần lần nào gọi cũng phải thêm namespace vào nơi cần dùng)
+ là sẽ gọi đc ở bất cứ đâu, nó được tự động bơm vào phương thức khởi tao nơi mà sử dụng dịch vụ.
+--->dễ mở rộng, dễ bảo trì
+--->cả website hệ thống DI, do đó ta cần đăng ký service với hệ thống DI để có thể inject vào chỗ cần dùng 
+
+============================= Create a razor page: dotnet new page -n ProductPage -o Pages 
+dotnet new page -n Index -o Areas/Admin/Pages/Role -p:n App.Admin.Role
+------------------=Name====-===folder====-----------==namespace
+
+
+==================== Binding 

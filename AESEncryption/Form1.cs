@@ -27,53 +27,87 @@ namespace AESEncryption
         {
             InitializeComponent();
             cbAesKeySize.SelectedIndex = 0;
+            
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        static void Send(byte[] key, string ip, int port)
-        {
-
-            IPAddress ipAddress = IPAddress.Parse(ip); // Địa chỉ IP của máy nhận 58.186.71.240
-            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port); // Cổng mạng của máy nhận
-            Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            sender.Connect(remoteEP);
-            sender.Send(key);
-        }
-        private void buttonEncrypt_Click(object sender, EventArgs e)
+       
+        static void SendSocket(string filePath, string ip)
         {
             try
             {
-                //var data = Encrypt(textBoxInput.Text, textBoxEncryptPassword.Text);
-                //textBoxEncryptedOutput.Text = data.StringEncryptOrDecrypt;
-                //textTimeEncrypt.Text = data.DecrypEncryptTime.ToString("0.#############");
+                IPAddress address = IPAddress.Parse(ip);
 
-                AES.Encrypt(textBoxInput.Text, textBoxEncryptPassword.Text);
-                byte[] buffer = File.ReadAllBytes("_encrypted.txt");
-                //byte[] buffer = File.ReadAllBytes(textBoxInput.Text);
-                string length = buffer.Length.ToString();
+                TcpListener listener = new TcpListener(address, 9999);
 
-                byte[] typeBytes = Encoding.UTF8.GetBytes(textBoxEncryptPassword.Text);
-                string length1 = typeBytes.Length.ToString();
+                // 1. listen
+                listener.Start();
 
-                string key = string.Concat(textBoxEncryptPassword.Text, length);
-                string keySend = string.Concat(length1, key);
+                Socket socket = listener.AcceptSocket();
 
-                byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+                var stream = new NetworkStream(socket);
                 
+                byte[] buffer = File.ReadAllBytes(filePath); // Đọc dữ liệu từ file dưới dạng byte
 
-                //SendKey(keyBytes);
-                //Send(typeBytes, textIP.Text, 10000);
-                Send(keyBytes, textIP.Text, 10000);
-                //SendFileEncrypted(buffer);
-                Send(buffer, textIP.Text, 12345);
+                // 3. send
+                stream.Write(buffer, 0, buffer.Length);
+                // 4. close
+                stream.Close();
+                socket.Close();
+                listener.Stop();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
+        }
+        static void SendSocketKey(string key, string ip)
+        {
+            try
+            {
+                IPAddress address = IPAddress.Parse(ip); //"192.168.1.4"
+
+                TcpListener listener = new TcpListener(address, 8888);
+
+                // 1. listen
+                listener.Start();
+
+                Socket socket = listener.AcceptSocket();
+
+                var stream = new NetworkStream(socket);
+                var writer = new StreamWriter(stream);
+                writer.AutoFlush = true;
+
+                writer.WriteLine(key);
+                
+                // 4. close
+                stream.Close();
+                socket.Close();
+                listener.Stop();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
+        }
+        private void buttonEncrypt_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                AES.Encrypt(textBoxInput.Text, textBoxEncryptPassword.Text);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
+            SendSocketKey(textBoxEncryptPassword.Text, textIP.Text);
+            SendSocket("_encrypted.txt", textIP.Text);
+
         }
 
         private void buttonDecrypt_Click(object sender, EventArgs e)
@@ -83,6 +117,7 @@ namespace AESEncryption
                 //var data = Decrypt(textBoxEncrypted.Text, textBoxDcryptPassword.Text);
                 //textBoxDecryptOutput.Text = data.StringEncryptOrDecrypt;
                 //textTimeDecrypt.Text = data.DecrypEncryptTime.ToString("0.#############");
+                
             }
             catch (Exception ex)
             {
@@ -115,32 +150,6 @@ namespace AESEncryption
             //buttonDecrypt.Enabled = textBoxEncrypted.Text.Length > 0;
         }
 
-        //private DataEncryptionProvider Encrypt(string plainText, string Password)
-        //{
-        //    Stopwatch stopwatch = new Stopwatch();
-        //    var keySize = int.Parse(cbAesKeySize.Text);
-
-
-        //    stopwatch.Start();
-        //    string encryptString = Convert.ToBase64String(AES.Encrypt(plainText, Password));
-        //    stopwatch.Stop();
-        //    double encryptionTime = stopwatch.Elapsed.TotalSeconds;
-        //    return new DataEncryptionProvider(encryptString, encryptionTime);
-
-        //}
-
-        //private DataEncryptionProvider Decrypt(string plaintext, string Password)
-        //{
-        //    Stopwatch stopwatch = new Stopwatch();
-
-        //    var keySize = int.Parse(cbAesKeySize.Text);
-
-        //    stopwatch.Start();
-        //    string decryptString = AES.Decrypt(Convert.FromBase64String(plaintext), Password);
-        //    stopwatch.Stop();
-        //    double decryptionTime = stopwatch.Elapsed.TotalSeconds;
-        //    return new DataEncryptionProvider(decryptString, decryptionTime);
-        //}
 
         private void textBoxEncryptPassword_Leave(object sender, EventArgs e)
         {
