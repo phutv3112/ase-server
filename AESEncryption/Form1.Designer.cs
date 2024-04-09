@@ -65,9 +65,9 @@ namespace AESEncryption
             label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             label1.Location = new System.Drawing.Point(8, 24);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(147, 20);
+            label1.Size = new System.Drawing.Size(172, 20);
             label1.TabIndex = 1;
-            label1.Text = "Enter plain input text";
+            label1.Text = "Enter path file plain text ";
             // 
             // buttonExit
             // 

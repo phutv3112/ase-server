@@ -75,6 +75,67 @@ namespace AESEncryption.Model
             Console.WriteLine("File đã được mã hóa và lưu vào: " + outputFilePath);
         }
 
+        public static void EncryptFile(string inputFilePath, string key, int r)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+
+            byte[] plainBytes = File.ReadAllBytes(inputFilePath);
+
+            int numBlocks = (int)Math.Ceiling((double)plainBytes.Length / BlockSize);
+
+            // Tạo tên file đích
+
+            using (FileStream outputFileStream = new FileStream("_encrypted.txt", FileMode.Create))
+            {
+                for (int blockIndex = 0; blockIndex < numBlocks; blockIndex++)
+                {
+                    byte[][] state = new byte[4][];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        state[i] = new byte[4];
+                    }
+
+                    for (int i = 0; i < BlockSize; i++)
+                    {
+                        if (blockIndex * BlockSize + i < plainBytes.Length)
+                        {
+                            state[i % 4][i / 4] = plainBytes[blockIndex * BlockSize + i];
+                        }
+                        else
+                        {
+                            // Padding: nếu độ dài dữ liệu không chia hết cho BlockSize, thêm byte 0
+                            state[i % 4][i / 4] = 0;
+                        }
+                    }
+
+                    byte[][] w = KeyExpansion(keyBytes);
+
+                    AddRoundKey(state, w, 0);
+
+                    for (int round = 1; round < r; round++)
+                    {
+                        SubBytes(state);
+                        ShiftRows(state);
+                        MixColumns(state);
+                        AddRoundKey(state, w, round);
+                    }
+
+                    SubBytes(state);
+                    ShiftRows(state);
+                    AddRoundKey(state, w, r);
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        for (int j = 0; j < 4; j++)
+                        {
+                            outputFileStream.WriteByte(state[j][i]);
+                        }
+                    }
+                }
+            }
+
+        }
+
 
 
         public static void Decrypt(string inputFilePath, string key)

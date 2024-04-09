@@ -98,15 +98,37 @@ namespace AESEncryption
 
             try
             {
-                AES.Encrypt(textBoxInput.Text, textBoxEncryptPassword.Text);
+                //AES.Encrypt(textBoxInput.Text, textBoxEncryptPassword.Text);
+                int keySize = int.Parse(cbAesKeySize.Text);
+                if (keySize == 128 && textBoxEncryptPassword.Text.Length == 16)
+                {
+                    AES.EncryptFile(textBoxInput.Text, textBoxEncryptPassword.Text, 10);
+                    SendSocketKey(textBoxEncryptPassword.Text, textIP.Text);
+                    SendSocket("_encrypted.txt", textIP.Text);
+                }
+                else if (keySize == 192 && textBoxEncryptPassword.Text.Length == 24)
+                {
+                    AES.EncryptFile(textBoxInput.Text, textBoxEncryptPassword.Text, 12);
+                    SendSocketKey(textBoxEncryptPassword.Text, textIP.Text);
+                    SendSocket("_encrypted.txt", textIP.Text);
+                }
+                else if (keySize == 256 && textBoxEncryptPassword.Text.Length == 32)
+                {
+                    AES.EncryptFile(textBoxInput.Text, textBoxEncryptPassword.Text, 14);
+                    SendSocketKey(textBoxEncryptPassword.Text, textIP.Text);
+                    SendSocket("_encrypted.txt", textIP.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Password's invalid!");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-            SendSocketKey(textBoxEncryptPassword.Text, textIP.Text);
-            SendSocket("_encrypted.txt", textIP.Text);
+            
 
         }
 
