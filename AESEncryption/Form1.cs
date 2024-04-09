@@ -196,29 +196,7 @@ namespace AESEncryption
             }
         }
 
-        //private void textBoxEncryptedOutput_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    if (textBoxEncryptedOutput.Text.Length > 0)
-        //    {
-        //        byte[] InputBytes = Convert.FromBase64String(textBoxEncryptedOutput.Text);
-        //        textBoxDebug.Text = BitConverter.ToString(InputBytes).ToLower().Replace("-", " ");
-        //    }
-        //}
-
-        //private void textBoxEncrypted_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    byte[] InputBytes = Convert.FromBase64String(textBoxEncrypted.Text);
-        //    textBoxDebug.Text = BitConverter.ToString(InputBytes).ToLower().Replace("-", " ");
-        //}
-
-        //private void textBoxDcryptPassword_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    if (textBoxDcryptPassword.Text.Length > 0)
-        //    {
-        //        byte[] InputBytes = Encoding.UTF8.GetBytes(textBoxDcryptPassword.Text);
-        //        textBoxDebug.Text = BitConverter.ToString(InputBytes).ToLower().Replace("-", "");
-        //    }
-        //}
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -266,26 +244,7 @@ namespace AESEncryption
             textBoxEncryptPassword.Text = randomString;
         }
 
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog openFile = new OpenFileDialog();
-        //    if (openFile.ShowDialog() == DialogResult.OK)
-        //    {
-        //        try
-        //        {
-        //            using (StreamReader sr = new StreamReader(openFile.FileName))
-        //            {
-        //                string content = sr.ReadToEnd();
-        //                textBoxEncrypted.Text = content;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex.Message);
-        //        }
-
-        //    };
-        //}
+       
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -297,26 +256,7 @@ namespace AESEncryption
             //textBoxEncrypted.Text = "";
         }
 
-        //private void button4_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog openFile = new OpenFileDialog();
-        //    if (openFile.ShowDialog() == DialogResult.OK)
-        //    {
-        //        try
-        //        {
-        //            using (StreamReader sr = new StreamReader(openFile.FileName))
-        //            {
-        //                string content = sr.ReadToEnd();
-        //                textBoxDcryptPassword.Text = content;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex.Message);
-        //        }
-
-        //    };
-        //}
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
